@@ -1,47 +1,31 @@
 #import "AppDelegate.h"
 #import "ASAdSurge.h"
+#import "SplashViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Initialize AdSurge with configuration
+    // 初始化 AdSurge（仅 Pangle 示例，替换为你的真实 appId）
     NSDictionary *config = @{
-        // Global settings
         @"logLevel": @"info",
         @"enableATTPrompt": @YES,
-        
-        // ADN/Aggregator configurations (placeholder examples)
-        @"pangle": @{ @"appId": @"your_pangle_app_id"},
-        @"kuaishou": @{ @"appId": @"your_ks_app_id"},
-        @"gdt": @{ @"appId": @"your_gdt_app_id"},
-        @"sigmob": @{ @"appId": @"your_sigmob_app_id"},
-        @"baidu": @{ @"appId": @"your_baidu_app_id"},
-        @"meishu": @{ @"appId": @"your_meishu_app_id"},
-        @"beizi": @{ @"appId": @"your_beizi_app_id"},
-        @"octopus": @{ @"appId": @"your_octopus_app_id"},
-        @"funlink": @{ @"appId": @"your_funlink_app_id"},
-        @"gromore": @{ @"appId": @"your_gromore_app_id"},
-        @"taku": @{ @"appId": @"your_taku_app_id"},
-        @"tobid": @{ @"appId": @"your_tobid_app_id"},
+        @"pangle": @{ @"appId": @"your_pangle_app_id" },
     };
-    
+
     [[ASAdSurge shared] startWithConfig:config completion:^(BOOL success, NSError * _Nullable error) {
-        if (success) {
-            NSLog(@"AdSurge initialized successfully");
+        if (!success) {
+            NSLog(@"[AdSurge] init failed: %@", error);
         } else {
-            NSLog(@"AdSurge initialization failed: %@", error);
+            NSLog(@"[AdSurge] initialized");
         }
     }];
-    
-    // Setup basic window
+
+    // 设置窗口与首屏控制器（开屏容器）
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
-    
-    UIViewController *rootVC = [UIViewController new];
-    rootVC.view.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = rootVC;
+    self.window.backgroundColor = UIColor.whiteColor;
+    self.window.rootViewController = [SplashViewController new];
     [self.window makeKeyAndVisible];
-    
+
     return YES;
 }
 
